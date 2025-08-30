@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.datashield</groupId>
-	<artifactId>datashield</artifactId>
+	<artifactId>datashield-serve-layer</artifactId>
 	<version>1.0.0</version>
 	<name>DataShield-Serve-Layer</name>
 	<description>数据之盾——隐私数据脱敏管理平台</description>
@@ -79,8 +79,8 @@
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
-		<version>2.0.58</version>
-</dependency>
+			<version>2.0.58</version>
+		</dependency>
 	</dependencies>
 
 	<build>

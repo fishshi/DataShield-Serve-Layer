@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: DataShield
+    name: DataShield-Serve-Layer
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/db_DataShield
     username: root
