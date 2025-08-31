@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.datashield.entity.UserRemoteDatabase;
 import com.datashield.pojo.Result;
 import com.datashield.service.DataService;
 import com.datashield.util.ResultUtil;
@@ -13,8 +14,11 @@ import com.datashield.util.ResultUtil;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  * 用户上传/查询/管理/下载数据库数据控制器
@@ -35,13 +39,38 @@ public class DataController {
     }
 
     /**
+     * 添加远程数据库
+     *
+     * @param userRemoteDatabase 用户远程数据库信息
+     */
+    @PostMapping("/addRemoteDatabase")
+    public Result<String> addRemoteDatabase(@RequestBody UserRemoteDatabase userRemoteDatabase) {
+        dataService.addRemoteDatabase(userRemoteDatabase);
+        return ResultUtil.success();
+    }
+
+    /**
      * 获取用户所有数据库名
      *
      * @return 用户所有数据库名列表
      */
-    @GetMapping("/getAllDatabases")
-    public Result<List<String>> postMethodName() {
-        return ResultUtil.success(dataService.getAllDatabases());
+    @GetMapping("/getLocalDatabases")
+    public Result<List<String>> getLocalDatabases() {
+        return ResultUtil.success(dataService.getLocalDatabases());
+    }
+
+    /**
+     * 获取用户所有远程数据库信息
+     */
+    @GetMapping("/getRemoteDatabases")
+    public Result<List<UserRemoteDatabase>> getMethodName() {
+        return ResultUtil.success(dataService.getRemoteDatabases());
+    }
+
+    @DeleteMapping("/deleteRemoteDatabase/{id}")
+    public Result<String> postMethodName(@PathVariable Long id) {
+        dataService.deleteRemoteDatabase(id);
+        return ResultUtil.success();
     }
 
     /**
@@ -52,8 +81,8 @@ public class DataController {
      * @return 数据库中所有表名列表
      */
     @GetMapping("/getAllTables")
-    public Result<List<String>> getAllTables(@RequestParam String dbName) {
-        return ResultUtil.success(dataService.getAllTables(dbName));
+    public Result<List<String>> getAllTables(@RequestParam String dbName, @RequestParam Boolean isRemote) {
+        return ResultUtil.success(dataService.getAllTables(dbName, isRemote));
     }
 
     /**
@@ -65,8 +94,9 @@ public class DataController {
      * @return 数据表中所有字段名列表
      */
     @GetMapping("/getColumns")
-    public Result<List<String>> getColumns(@RequestParam String dbName, @RequestParam String tbName) {
-        return ResultUtil.success(dataService.getColumns(dbName, tbName));
+    public Result<List<String>> getColumns(@RequestParam String dbName, @RequestParam String tbName,
+            @RequestParam Boolean isRemote) {
+        return ResultUtil.success(dataService.getColumns(dbName, tbName, isRemote));
     }
 
     /**
@@ -78,8 +108,9 @@ public class DataController {
      * @return 数据表中所有记录列表, 每条记录为 JSON 格式
      */
     @GetMapping("/getRecords")
-    public Result<List<JSONObject>> getRecords(@RequestParam String dbName, @RequestParam String tbName) {
-        List<Map<String, Object>> records = dataService.getRecords(dbName, tbName);
+    public Result<List<JSONObject>> getRecords(@RequestParam String dbName, @RequestParam String tbName,
+            @RequestParam Boolean isRemote) {
+        List<Map<String, Object>> records = dataService.getRecords(dbName, tbName, isRemote);
         List<JSONObject> jsonObjects = new ArrayList<>();
         for (Map<String, Object> record : records) {
             JSONObject jsonObject = new JSONObject();
@@ -96,8 +127,8 @@ public class DataController {
      *
      * @param dbName 数据库名
      */
-    @GetMapping("/dropDatabase")
-    public Result<String> dropDatabase(@RequestParam String dbName) {
+    @DeleteMapping("/dropDatabase/{dbName}")
+    public Result<String> dropDatabase(@PathVariable String dbName) {
         dataService.dropDatabase(dbName);
         return ResultUtil.success();
     }
