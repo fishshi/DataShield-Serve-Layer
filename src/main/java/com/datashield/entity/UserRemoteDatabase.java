@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import com.datashield.enums.DatabaseTypeEnum;
+
 /**
  * 用户远程数据库实体类
  */

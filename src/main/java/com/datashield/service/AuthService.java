@@ -1,5 +1,7 @@
 package com.datashield.service;
 
+import com.datashield.entity.UserAuth;
+
 /**
  * 用户认证服务接口
  */
@@ -7,22 +9,20 @@ public interface AuthService {
     /**
      * 登录
      *
-     * @param username 用户名
-     * @param password 密码
+     * @param userAuth 用户认证信息
      *
      * @return JWT token, null: 登录失败
      */
-    public String login(String username, String password);
+    String login(UserAuth userAuth);
 
     /**
      * 注册
      *
-     * @param username 用户名
-     * @param password 密码
+     * @param userAuth 用户认证信息
      *
      * @return JWT token
      */
-    public String register(String username, String password);
+    String register(UserAuth userAuth);
 
     /**
      * 检查用户名是否重复
@@ -31,5 +31,5 @@ public interface AuthService {
      *
      * @return true: 可以注册, false: 已存在
      */
-    public Boolean canRegister(String username);
+    Boolean canRegister(String username);
 }

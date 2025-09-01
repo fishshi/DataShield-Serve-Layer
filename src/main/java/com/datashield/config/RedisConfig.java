@@ -25,6 +25,7 @@ class RedisConfiguration {
      * 实例化 StringRedisTemplate 对象
      *
      * @param redisConnectionFactory Redis 连接工厂对象
+     *
      * @return StringRedisTemplate 对象
      */
     @Bean

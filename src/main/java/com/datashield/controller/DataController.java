@@ -67,6 +67,12 @@ public class DataController {
         return ResultUtil.success(dataService.getRemoteDatabases());
     }
 
+    /**
+     * 删除远程数据库信息
+     *
+     * @param id
+     * @return
+     */
     @DeleteMapping("/deleteRemoteDatabase/{id}")
     public Result<String> postMethodName(@PathVariable Long id) {
         dataService.deleteRemoteDatabase(id);

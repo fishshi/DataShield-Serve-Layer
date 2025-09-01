@@ -19,6 +19,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    /**
+     * 用户登出
+     */
     @PostMapping("/logout")
     public Result<String> logout() {
         userService.logout();

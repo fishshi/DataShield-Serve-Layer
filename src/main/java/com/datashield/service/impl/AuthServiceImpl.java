@@ -28,12 +28,12 @@ public class AuthServiceImpl implements AuthService {
     private RedisComponent redisComponent;
 
     @Override
-    public String login(String username, String password) {
-        UserAuth user = userAuthDAO.getUserAuthByUsername(username);
+    public String login(UserAuth userAuth) {
+        UserAuth user = userAuthDAO.getUserAuthByUsername(userAuth.getUsername());
         if (user == null) {
             throw new BusinessException("用户不存在");
         }
-        if (!user.getPassword().equals(password)) {
+        if (!user.getPassword().equals(userAuth.getPassword())) {
             return null;
         }
         String token = JwtUtil.generateToken(user.getId().toString());
@@ -43,23 +43,20 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional(rollbackFor = Throwable.class)
-    public String register(String username, String password) {
-        UserAuth user = new UserAuth();
-        user.setUsername(username);
-        user.setPassword(password);
-        user = userAuthDAO.insert(user);
-        if (user == null) {
+    public String register(UserAuth userAuth) {
+        userAuth = userAuthDAO.insert(userAuth);
+        if (userAuth == null) {
             throw new BusinessException("注册失败");
         }
         UserInfo userInfo = new UserInfo();
-        userInfo.setId(user.getId());
-        userInfo.setUsername(username);
+        userInfo.setId(userAuth.getId());
+        userInfo.setUsername(userAuth.getUsername());
         userInfo = userInfoDAO.insert(userInfo);
         if (userInfo == null) {
             throw new BusinessException("注册失败");
         }
-        String token = JwtUtil.generateToken(user.getId().toString());
-        redisComponent.set(user.getId().toString(), token, 1, TimeUnit.DAYS);
+        String token = JwtUtil.generateToken(userAuth.getId().toString());
+        redisComponent.set(userAuth.getId().toString(), token, 1, TimeUnit.DAYS);
         return token;
     }
 

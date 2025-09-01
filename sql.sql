@@ -36,4 +36,16 @@ CREATE TABLE `tb_user_remote_database` (
 
 DROP TABLE IF EXISTS `tb_task`;
 
-CREATE TABLE `tb_task` (`id` BIGINT PRIMARY KEY);
+CREATE TABLE `tb_task` (
+    `id` BIGINT PRIMARY KEY,
+    `user_id` BIGINT NOT NULL,
+    `is_remote` INT NOT NULL,
+    `db_name` VARCHAR(64) NOT NULL,
+    `db_table` VARCHAR(64) NOT NULL,
+    `db_columns` VARCHAR(256) NOT NULL,
+    `mask_rule` INT NOT NULL DEFAULT 0,
+    `target_table` VARCHAR(64) NOT NULL,
+    `status` INT NOT NULL DEFAULT 0,
+    `create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `update_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);

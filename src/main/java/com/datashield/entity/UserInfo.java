@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @TableName("tb_user_info")
 public class UserInfo {
     /**
-     * 主键 ID, 在 {@link UserAuth} 中以雪花算法生成
+     * 主键 ID, 在 {@link UserAuth} 中以雪花算法生成, 与其一致
      */
     private Long id;
 
