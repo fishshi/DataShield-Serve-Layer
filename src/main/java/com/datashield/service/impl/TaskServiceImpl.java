@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.datashield.component.KafkaComponent;
 import com.datashield.entity.Task;
 import com.datashield.exception.BusinessException;
 import com.datashield.mapper.TaskMapper;
@@ -16,6 +17,8 @@ import com.datashield.util.UserContextUtil;
 public class TaskServiceImpl implements TaskService {
     @Autowired
     private TaskMapper taskMapper;
+    @Autowired
+    private KafkaComponent kafkaComponent;
 
     @Override
     public void createTask(Task task) {
@@ -24,6 +27,8 @@ public class TaskServiceImpl implements TaskService {
         if (taskMapper.insert(task) == 0) {
             throw new BusinessException("创建任务失败");
         }
+        String taskId = task.getId().toString();
+        kafkaComponent.sendMessage("task-topic", taskId);
     }
 
     @Override
@@ -38,6 +43,8 @@ public class TaskServiceImpl implements TaskService {
         if (!task.getUserId().equals(userId) || taskMapper.updateById(task) == 0) {
             throw new BusinessException("更新任务失败");
         }
+        String taskId = task.getId().toString();
+        kafkaComponent.sendMessage("task-topic", taskId);
     }
 
     @Override

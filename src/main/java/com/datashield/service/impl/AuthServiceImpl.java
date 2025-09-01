@@ -6,12 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.datashield.component.RedisComponent;
-import com.datashield.dao.UserAuthDAO;
-import com.datashield.dao.UserInfoDAO;
 import com.datashield.entity.UserAuth;
 import com.datashield.entity.UserInfo;
 import com.datashield.exception.BusinessException;
+import com.datashield.mapper.UserAuthMapper;
+import com.datashield.mapper.UserInfoMapper;
 import com.datashield.service.AuthService;
 import com.datashield.util.JwtUtil;
 
@@ -21,15 +22,15 @@ import com.datashield.util.JwtUtil;
 @Service
 public class AuthServiceImpl implements AuthService {
     @Autowired
-    private UserAuthDAO userAuthDAO;
+    private UserAuthMapper userAuthMapper;
     @Autowired
-    private UserInfoDAO userInfoDAO;
+    private UserInfoMapper userInfoMapper;
     @Autowired
     private RedisComponent redisComponent;
 
     @Override
     public String login(UserAuth userAuth) {
-        UserAuth user = userAuthDAO.getUserAuthByUsername(userAuth.getUsername());
+        UserAuth user = userAuthMapper.selectOne(new QueryWrapper<UserAuth>().eq("username", userAuth.getUsername()));
         if (user == null) {
             throw new BusinessException("用户不存在");
         }
@@ -44,15 +45,13 @@ public class AuthServiceImpl implements AuthService {
     @Override
     @Transactional(rollbackFor = Throwable.class)
     public String register(UserAuth userAuth) {
-        userAuth = userAuthDAO.insert(userAuth);
-        if (userAuth == null) {
+        if (userAuthMapper.insert(userAuth) == 0) {
             throw new BusinessException("注册失败");
         }
         UserInfo userInfo = new UserInfo();
         userInfo.setId(userAuth.getId());
         userInfo.setUsername(userAuth.getUsername());
-        userInfo = userInfoDAO.insert(userInfo);
-        if (userInfo == null) {
+        if (userInfoMapper.insert(userInfo) == 0) {
             throw new BusinessException("注册失败");
         }
         String token = JwtUtil.generateToken(userAuth.getId().toString());
@@ -62,7 +61,6 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public Boolean canRegister(String username) {
-        UserAuth user = userAuthDAO.getUserAuthByUsername(username);
-        return user == null;
+        return userAuthMapper.selectCount(new QueryWrapper<UserAuth>().eq("username", username)) == 0;
     }
 }
