@@ -167,10 +167,9 @@ public class DataServiceImpl implements DataService {
             try (Connection conn = UserSqlConnectionUtil.getConnection(userRemoteDatabase)) {
                 List<String> tables = new ArrayList<>();
                 DatabaseMetaData metaData = conn.getMetaData();
-                try (ResultSet rs = metaData.getTables(dbName, null, "%", new String[] { "TABLE" })) {
-                    while (rs.next()) {
-                        tables.add(rs.getString("TABLE_NAME"));
-                    }
+                ResultSet rs = metaData.getTables(dbName, null, "%", new String[] { "TABLE" });
+                while (rs.next()) {
+                    tables.add(rs.getString("TABLE_NAME"));
                 }
                 return tables;
             } catch (Exception e) {
@@ -227,7 +226,7 @@ public class DataServiceImpl implements DataService {
             }
             try (Connection conn = UserSqlConnectionUtil.getConnection(userRemoteDatabase);
                     Statement stmt = conn.createStatement();
-                    ResultSet rs = stmt.executeQuery("SELECT * FROM `" + tbName + "` LIMIT 100")) {
+                    ResultSet rs = stmt.executeQuery("SELECT * FROM `" + tbName + "`")) {
                 ResultSetMetaData metaData = rs.getMetaData();
                 int columnCount = metaData.getColumnCount();
                 List<Map<String, Object>> records = new ArrayList<>();

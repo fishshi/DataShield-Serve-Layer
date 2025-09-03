@@ -1,5 +1,7 @@
 package com.datashield.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import lombok.AllArgsConstructor;
@@ -17,6 +19,7 @@ public class UserInfo {
     /**
      * 主键 ID, 在 {@link UserAuth} 中以雪花算法生成, 与其一致
      */
+    @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
     /**
