@@ -4,10 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 0-待执行, 1-执行中, 2-执行成功, 3-执行失败
- */
-
-/**
  * 数据脱敏规则枚举类
  */
 @Getter

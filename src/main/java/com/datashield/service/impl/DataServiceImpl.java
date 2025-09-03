@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
@@ -75,6 +76,50 @@ public class DataServiceImpl implements DataService {
     }
 
     @Override
+    public String generateSqlScript(String dbName) {
+        UserInfo userInfo = UserContextUtil.getUser();
+        String fullDbName = userInfo.getId().toString() + "_" + dbName;
+        try {
+            ProcessBuilder processBuilder = new ProcessBuilder();
+
+            String host = UserSqlConnectionUtil.getHost();
+            String port = UserSqlConnectionUtil.getPort();
+            String username = UserSqlConnectionUtil.getUsername();
+            String password = UserSqlConnectionUtil.getPassword();
+
+            // 构建mysqldump命令
+            List<String> command = new ArrayList<>();
+            command.add("mysqldump");
+            command.add("-h" + host);
+            command.add("-P" + port);
+            command.add("-u" + username);
+            command.add("-p" + password);
+            command.add("--skip-lock-tables");
+            command.add("--single-transaction"); // 使用事务保证一致性
+            command.add("--routines"); // 包含存储过程和函数
+            command.add("--triggers"); // 包含触发器
+            command.add("--events"); // 包含事件
+            command.add("--set-charset"); // 设置字符集
+            command.add("--result-file=-"); // 输出到标准输出
+            command.add(fullDbName);
+
+            processBuilder.command(command);
+            processBuilder.redirectErrorStream(true);
+
+            Process process = processBuilder.start();
+            String result = new String(process.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+
+            int exitCode = process.waitFor();
+            if (exitCode != 0) {
+                throw new BusinessException("数据库导出失败，退出码: " + exitCode);
+            }
+            return result;
+        } catch (IOException | InterruptedException e) {
+            throw new BusinessException("执行mysqldump命令失败: " + e.getMessage());
+        }
+    }
+
+    @Override
     public void addRemoteDatabase(UserRemoteDatabase userRemoteDatabase) {
         UserInfo userInfo = UserContextUtil.getUser();
         userRemoteDatabase.setUserId(userInfo.getId());
@@ -86,7 +131,11 @@ public class DataServiceImpl implements DataService {
     @Override
     public List<String> getLocalDatabases() {
         UserInfo userInfo = UserContextUtil.getUser();
-        return dataMapper.getAllDatabases(userInfo.getId().toString() + "_");
+        List<String> databases = dataMapper.getAllDatabases(userInfo.getId().toString() + "_");
+        for (String dbName : databases) {
+            dbName = dbName.replace(userInfo.getId().toString() + "_", "");
+        }
+        return databases;
     }
 
     @Override

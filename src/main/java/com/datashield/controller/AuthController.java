@@ -3,12 +3,11 @@ package com.datashield.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import com.datashield.controller.req.UpdatePasswordReq;
 import com.datashield.entity.UserAuth;
 import com.datashield.pojo.Result;
 import com.datashield.service.AuthService;
 import com.datashield.util.ResultUtil;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * 用户认证服务控制器
@@ -66,5 +65,13 @@ public class AuthController {
     @GetMapping("/canRegister")
     public Result<Boolean> canRegister(@RequestParam String username) {
         return ResultUtil.success(authService.canRegister(username));
+    }
+
+    /**
+     * 更新用户密码
+     */
+    @PatchMapping("/updatePassword")
+    public Result<String> updatePassword(@RequestBody UpdatePasswordReq req) {
+        return ResultUtil.success(authService.updatePassword(req.getOldPassword(), req.getNewPassword()));
     }
 }

@@ -32,4 +32,14 @@ public interface AuthService {
      * @return true: 可以注册, false: 已存在
      */
     Boolean canRegister(String username);
+
+    /**
+     * 更新密码
+     *
+     * @param oldPassword 旧密码
+     * @param newPassword 新密码
+     *
+     * @return JWT token
+     */
+    String updatePassword(String oldPassword, String newPassword);
 }

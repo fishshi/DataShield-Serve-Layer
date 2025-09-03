@@ -19,6 +19,13 @@ public interface DataService {
     void executeSql(MultipartFile file);
 
     /**
+     * 下载 SQL 文件
+     *
+     * @param dbName 数据库名
+     */
+    String generateSqlScript(String dbName);
+
+    /**
      * 添加用户远程数据库
      *
      * @param userRemoteDatabase 用户远程数据库配置信息

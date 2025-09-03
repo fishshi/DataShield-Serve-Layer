@@ -7,13 +7,19 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.datashield.entity.UserRemoteDatabase;
+import com.datashield.exception.BusinessException;
 import com.datashield.pojo.Result;
 import com.datashield.service.DataService;
 import com.datashield.util.ResultUtil;
 
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,6 +45,30 @@ public class DataController {
     }
 
     /**
+     * 下载数据库 SQL 脚本
+     *
+     * @param dbName 数据库名
+     *
+     * @return SQL 脚本文件
+     */
+    @GetMapping("/downloadSql")
+    public ResponseEntity<byte[]> downloadSql(@RequestParam String dbName) {
+        try {
+            String sqlContent = dataService.generateSqlScript(dbName);
+            byte[] sqlBytes = sqlContent.getBytes(StandardCharsets.UTF_8);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+            headers.setContentDispositionFormData("attachment", dbName + ".sql");
+            headers.setContentLength(sqlBytes.length);
+
+            return new ResponseEntity<>(sqlBytes, headers, HttpStatus.OK);
+        } catch (Exception e) {
+            throw new BusinessException("生成SQL脚本失败: " + e.getMessage());
+        }
+    }
+
+    /**
      * 添加远程数据库
      *
      * @param userRemoteDatabase 用户远程数据库信息
@@ -61,6 +91,8 @@ public class DataController {
 
     /**
      * 获取用户所有远程数据库信息
+     * 
+     * @return 用户所有远程数据库信息列表
      */
     @GetMapping("/getRemoteDatabases")
     public Result<List<UserRemoteDatabase>> getMethodName() {
@@ -71,7 +103,6 @@ public class DataController {
      * 删除远程数据库信息
      *
      * @param id
-     * @return
      */
     @DeleteMapping("/deleteRemoteDatabase/{id}")
     public Result<String> postMethodName(@PathVariable Long id) {

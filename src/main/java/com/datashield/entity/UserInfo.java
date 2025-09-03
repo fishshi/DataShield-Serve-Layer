@@ -25,6 +25,11 @@ public class UserInfo {
     private String username;
 
     /**
+     * 头像地址
+     */
+    private String avatarUrl;
+
+    /**
      * 邮箱
      */
     private String email;

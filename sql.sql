@@ -17,6 +17,7 @@ DROP TABLE IF EXISTS `tb_user_info`;
 CREATE TABLE `tb_user_info` (
     `id` BIGINT PRIMARY KEY,
     `username` VARCHAR(32) UNIQUE NOT NULL,
+    `avatar_url` VARCHAR(256),
     `email` VARCHAR(64),
     `phone` VARCHAR(16)
 );

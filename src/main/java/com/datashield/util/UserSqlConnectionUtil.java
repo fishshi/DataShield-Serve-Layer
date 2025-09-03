@@ -13,6 +13,11 @@ import com.datashield.exception.BusinessException;
  * TODO: 本地改用用户MySQL服务器, 与业务服务器分开
  */
 public class UserSqlConnectionUtil {
+    private static String host = "127.0.0.1";
+    private static String port = "3306";
+    private static String username = "root";
+    private static String password = "123456";
+
     /**
      * 获取用户本地 MySQL 数据库连接
      * 
@@ -20,8 +25,6 @@ public class UserSqlConnectionUtil {
      */
     public static Connection getConnection() throws SQLException {
         String jdbcUrl = "jdbc:mysql://127.0.0.1:3306";
-        String username = "root";
-        String password = "123456";
         return DriverManager.getConnection(jdbcUrl, username, password);
     }
 
@@ -40,5 +43,21 @@ public class UserSqlConnectionUtil {
         }
         return DriverManager.getConnection(jdbcUrl, userRemoteDatabase.getDbUsername(),
                 userRemoteDatabase.getDbPassword());
+    }
+
+    public static String getHost() {
+        return host;
+    }
+
+    public static String getPort() {
+        return port;
+    }
+
+    public static String getUsername() {
+        return username;
+    }
+
+    public static String getPassword() {
+        return password;
     }
 }

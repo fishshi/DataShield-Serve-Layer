@@ -15,6 +15,7 @@ import com.datashield.mapper.UserAuthMapper;
 import com.datashield.mapper.UserInfoMapper;
 import com.datashield.service.AuthService;
 import com.datashield.util.JwtUtil;
+import com.datashield.util.UserContextUtil;
 
 /**
  * 用户认证服务实现类
@@ -62,5 +63,19 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public Boolean canRegister(String username) {
         return userAuthMapper.selectCount(new QueryWrapper<UserAuth>().eq("username", username)) == 0;
+    }
+
+    @Override
+    public String updatePassword(String oldPassword, String newPassword) {
+        Long id = UserContextUtil.getUser().getId();
+        UserAuth userAuth = userAuthMapper.selectById(id);
+        if (!userAuth.getPassword().equals(oldPassword)) {
+            throw new BusinessException("旧密码错误");
+        }
+        userAuth.setPassword(newPassword);
+        userAuthMapper.updateById(userAuth);
+        String token = JwtUtil.generateToken(id.toString());
+        redisComponent.set(userAuth.getId().toString(), token, 1, TimeUnit.DAYS);
+        return token;
     }
 }
