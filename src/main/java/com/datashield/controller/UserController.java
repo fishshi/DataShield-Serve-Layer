@@ -35,28 +35,42 @@ public class UserController {
         return ResultUtil.success();
     }
 
+    /**
+     * 获取用户信息
+     *
+     * @return 用户信息
+     */
     @GetMapping("/getUserInfo")
     public Result<UserInfo> getUserInfo() {
         return ResultUtil.success(userService.getUserInfo());
     }
 
+    /**
+     * 更新用户信息
+     *
+     * @param userInfo 用户信息
+     */
     @PutMapping("/updateUserInfo")
     public Result<String> updateUserInfo(@RequestBody UserInfo userInfo) {
         userService.updateUserInfo(userInfo);
         return ResultUtil.success();
     }
 
+    /**
+     * 上传头像
+     *
+     * @param file 头像文件
+     *
+     * @return 上传成功的头像 url
+     */
     @PostMapping("/uploadAvatar")
     public Result<String> uploadAvatar(MultipartFile file) {
-        // TODO
-        throw new BusinessException("未实现");
-        // String url = userService.uploadAvatar(file);
-        // if (url != null)
-        // return ResultUtil.success(url);
-        // else
-        // return ResultUtil.error("选中失败,请稍后重试或联系系统管理员");
+        return ResultUtil.success(userService.uploadAvatar(file));
     }
 
+    /**
+     * 更新头像
+     */
     @PatchMapping("/updateAvatar")
     public Result<String> updateAvatar(@RequestBody UserInfo userInfo) {
         userService.updateAvatar(userInfo.getAvatarUrl());

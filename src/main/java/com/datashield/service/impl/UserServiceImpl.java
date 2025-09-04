@@ -36,7 +36,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUserInfo(UserInfo userInfo) {
         Long id = UserContextUtil.getUser().getId();
+        UserInfo oldUserInfo = userInfoMapper.selectById(id);
+        userInfo.setUsername(oldUserInfo.getUsername());
         userInfo.setId(id);
+        userInfo.setAvatarUrl(oldUserInfo.getAvatarUrl());
         userInfoMapper.updateById(userInfo);
     }
 

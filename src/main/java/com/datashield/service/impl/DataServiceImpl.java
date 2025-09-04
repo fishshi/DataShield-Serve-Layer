@@ -132,8 +132,10 @@ public class DataServiceImpl implements DataService {
     public List<String> getLocalDatabases() {
         UserInfo userInfo = UserContextUtil.getUser();
         List<String> databases = dataMapper.getAllDatabases(userInfo.getId().toString() + "_");
-        for (String dbName : databases) {
+        for (int i = 0; i < databases.size(); i++) {
+            String dbName = databases.get(i);
             dbName = dbName.replace(userInfo.getId().toString() + "_", "");
+            databases.set(i, dbName);
         }
         return databases;
     }
