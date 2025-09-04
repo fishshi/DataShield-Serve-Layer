@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import com.datashield.enums.DatabaseTypeEnum;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * 用户远程数据库实体类
@@ -22,6 +23,7 @@ public class UserRemoteDatabase {
      * 主键 ID, 雪花算法生成
      */
     @TableId(type = IdType.ASSIGN_ID)
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     Long id;
 
     /**

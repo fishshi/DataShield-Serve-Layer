@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import com.datashield.enums.DataMaskRuleEnum;
 import com.datashield.enums.TaskStatusEnum;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * 任务实体类
@@ -23,6 +24,7 @@ public class Task {
      * 主键 ID, 雪花算法生成
      */
     @TableId(type = IdType.ASSIGN_ID)
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
 
     /**
