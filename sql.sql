@@ -40,11 +40,11 @@ DROP TABLE IF EXISTS `tb_identify`;
 CREATE TABLE `tb_identify` (
     `id` BIGINT PRIMARY KEY,
     `user_id` BIGINT NOT NULL,
-    `identity_name` VARCHAR(64) NOT NULL,
+    `identify_name` VARCHAR(64) NOT NULL,
     `is_remote` INT NOT NULL,
     `db_name` VARCHAR(64) NOT NULL,
-    `table_name` VARCHAR(64) NOT NULL,
-    `colomns` VARCHAR(256) NOT NULL,
+    `tb_name` VARCHAR(64) NOT NULL,
+    `columns` VARCHAR(256),
     `status` INT NOT NULL DEFAULT 0,
     `create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `update_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP

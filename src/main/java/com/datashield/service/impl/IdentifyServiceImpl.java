@@ -3,6 +3,7 @@ package com.datashield.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.datashield.component.KafkaComponent;
@@ -12,6 +13,7 @@ import com.datashield.mapper.IdentifyMapper;
 import com.datashield.service.IdentifyService;
 import com.datashield.util.UserContextUtil;
 
+@Service
 public class IdentifyServiceImpl implements IdentifyService {
     @Autowired
     private IdentifyMapper identifyMapper;

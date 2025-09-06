@@ -28,8 +28,8 @@ public class IdentifyController {
      * 创建敏感数据识别任务
      */
     @PostMapping("/createIdentify")
-    public Result<String> createIdentify(@RequestBody Identify identity) {
-        identifyService.createTask(identity);
+    public Result<String> createIdentify(@RequestBody Identify identify) {
+        identifyService.createTask(identify);
         return ResultUtil.success();
     }
 
@@ -46,8 +46,8 @@ public class IdentifyController {
      * 更新敏感数据识别任务
      */
     @PostMapping("/updateIdentify")
-    public Result<String> updateIdentity(@RequestBody Identify identity) {
-        identifyService.updateTask(identity);
+    public Result<String> updateIdentify(@RequestBody Identify identify) {
+        identifyService.updateTask(identify);
         return ResultUtil.success();
     }
 
@@ -57,7 +57,7 @@ public class IdentifyController {
      * @param id 敏感数据识别任务ID
      */
     @DeleteMapping("deleteIdentify/{id}")
-    public Result<String> deleteIdentity(@PathVariable Long id) {
+    public Result<String> deleteIdentify(@PathVariable Long id) {
         identifyService.deleteTask(id);
         return ResultUtil.success();
     }
