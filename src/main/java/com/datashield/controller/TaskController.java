@@ -45,8 +45,7 @@ public class TaskController {
      */
     @GetMapping("/getAllTasks")
     public Result<List<Task>> getAllTasks() {
-        taskService.getAllTasks();
-        return ResultUtil.success();
+        return ResultUtil.success(taskService.getAllTasks());
     }
 
     /**

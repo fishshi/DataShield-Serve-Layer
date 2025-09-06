@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.datashield.entity.UserInfo;
-import com.datashield.exception.BusinessException;
 import com.datashield.pojo.Result;
 import com.datashield.service.UserService;
 import com.datashield.util.ResultUtil;

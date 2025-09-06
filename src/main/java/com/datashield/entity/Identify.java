@@ -8,20 +8,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import com.datashield.enums.DataMaskRuleEnum;
 import com.datashield.enums.TaskStatusEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-/**
- * 任务实体类
- */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("tb_task")
-public class Task {
+@TableName("tb_identify")
+public class Identify {
     /**
-     * 主键 ID, 雪花算法生成
+     * 主键 id, 雪花算法生成
      */
     @TableId(type = IdType.ASSIGN_ID)
     @JsonFormat(shape = JsonFormat.Shape.STRING)
@@ -34,14 +30,14 @@ public class Task {
     private Long userId;
 
     /**
-     * 是否为远程数据库
+     * 识别名称
      */
-    private Integer isRemote;
+    private String identityName;
 
     /**
-     * 任务名称
+     * 是否远程数据库
      */
-    private String taskName;
+    private Integer isRemote;
 
     /**
      * 数据库名称
@@ -51,25 +47,15 @@ public class Task {
     /**
      * 表名称
      */
-    private String dbTable;
+    private String tableName;
 
     /**
-     * 需要脱敏字段名称, 多个字段用逗号分隔
+     * 字段名称
      */
-    private String dbColumns;
+    private String colomns;
 
     /**
-     * 脱敏规则, {@link DataMaskRuleEnum}
-     */
-    private Integer maskRule;
-
-    /**
-     * 结果输出表名称
-     */
-    private String targetTable;
-
-    /**
-     * 任务状态, {@link TaskStatusEnum}
+     * 状态, {@link TaskStatusEnum}
      */
     private Integer status;
 }

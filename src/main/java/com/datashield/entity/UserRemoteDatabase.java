@@ -29,6 +29,7 @@ public class UserRemoteDatabase {
     /**
      * 用户 ID, 对应 tb_user 表的主键 ID
      */
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     Long userId;
 
     /**
