@@ -40,7 +40,8 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void updateTask(Task task) {
         Long userId = UserContextUtil.getUser().getId();
-        if (!task.getUserId().equals(userId) || taskMapper.updateById(task) == 0) {
+        task.setUserId(userId);
+        if (taskMapper.updateById(task) == 0) {
             throw new BusinessException("更新任务失败");
         }
         String taskId = task.getId().toString();

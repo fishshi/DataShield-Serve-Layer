@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
@@ -45,7 +46,7 @@ public class IdentifyController {
     /**
      * 更新敏感数据识别任务
      */
-    @PostMapping("/updateIdentify")
+    @PutMapping("/updateIdentify")
     public Result<String> updateIdentify(@RequestBody Identify identify) {
         identifyService.updateTask(identify);
         return ResultUtil.success();
