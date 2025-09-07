@@ -1,5 +1,6 @@
 package com.datashield.service.impl;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ public class TaskServiceImpl implements TaskService {
     public void createTask(Task task) {
         Long userId = UserContextUtil.getUser().getId();
         task.setUserId(userId);
+        task.setUpdateTime(new Timestamp(System.currentTimeMillis()));
         if (taskMapper.insert(task) == 0) {
             throw new BusinessException("创建任务失败");
         }
@@ -41,6 +43,7 @@ public class TaskServiceImpl implements TaskService {
     public void updateTask(Task task) {
         Long userId = UserContextUtil.getUser().getId();
         task.setUserId(userId);
+        task.setUpdateTime(new Timestamp(System.currentTimeMillis()));
         if (taskMapper.updateById(task) == 0) {
             throw new BusinessException("更新任务失败");
         }
