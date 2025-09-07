@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import com.datashield.enums.DataMaskRuleEnum;
+import com.datashield.enums.ScheduleTypeEnum;
 import com.datashield.enums.TaskStatusEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -67,6 +68,11 @@ public class Task {
      * 结果输出表名称
      */
     private String targetTable;
+
+    /**
+     * 周期lastCompletedBuild, {@link ScheduleTypeEnum}
+     */
+    private String scheduleType;
 
     /**
      * 任务状态, {@link TaskStatusEnum}

@@ -62,6 +62,7 @@ CREATE TABLE `tb_task` (
     `db_columns` VARCHAR(256) NOT NULL,
     `mask_rule` INT NOT NULL DEFAULT 0,
     `target_table` VARCHAR(64) NOT NULL,
+    `schedule_type` INT NOT NULL,
     `status` INT NOT NULL DEFAULT 0,
     `create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `update_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
