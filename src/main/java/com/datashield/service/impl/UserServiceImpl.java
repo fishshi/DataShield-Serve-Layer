@@ -1,13 +1,18 @@
 package com.datashield.service.impl;
 
+import java.io.File;
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.datashield.component.RedisComponent;
 import com.datashield.entity.UserInfo;
+import com.datashield.exception.BusinessException;
 import com.datashield.mapper.UserInfoMapper;
 import com.datashield.service.UserService;
+import com.datashield.util.AvatarUtil;
 import com.datashield.util.UserContextUtil;
 
 /**
@@ -45,7 +50,23 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String uploadAvatar(MultipartFile file) {
-        return null;
+        Long id = UserContextUtil.getUser().getId();
+        String originalFilename = file.getOriginalFilename();
+        String suffix = "";
+        if (originalFilename != null && originalFilename.contains(".")) {
+            suffix = originalFilename.substring(originalFilename.lastIndexOf("."));
+        }
+        String newFileName = id + suffix;
+
+        String fullPath = "/datashield/tmp/" + newFileName;
+        File dest = new File(fullPath);
+        try {
+            file.transferTo(dest);
+        } catch (IOException e) {
+            throw new BusinessException("头像上传失败");
+        }
+        String avatarUrl = AvatarUtil.uploadAvatar(fullPath);
+        return avatarUrl;
     }
 
     @Override

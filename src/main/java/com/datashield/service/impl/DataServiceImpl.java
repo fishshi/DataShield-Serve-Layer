@@ -55,8 +55,8 @@ public class DataServiceImpl implements DataService {
             sqlContent = sqlContent
                     .replaceAll("(?i)DROP\\s+DATABASE(?:\\s+IF\\s+EXISTS)?\\s+`?([a-zA-Z0-9_]+)`?",
                             "DROP DATABASE IF EXISTS `" + userInfo.getId().toString() + "_$1`")
-                    .replaceAll("(?i)CREATE\\s+DATABASE\\s+`?([a-zA-Z0-9_]+)`?",
-                            "CREATE DATABASE `" + userInfo.getId().toString() + "_$1`")
+                    .replaceAll("(?i)CREATE\\s+DATABASE(?:\\s+IF\\s+NOT\\s+EXISTS)?\\s+`?([a-zA-Z0-9_]+)`?",
+                            "CREATE DATABASE IF NOT EXISTS `" + userInfo.getId().toString() + "_$1`")
                     .replaceAll("(?i)USE\\s+`?([a-zA-Z0-9_]+)`?",
                             "USE `" + userInfo.getId().toString() + "_$1`");
             try (Reader reader = new StringReader(sqlContent)) {
