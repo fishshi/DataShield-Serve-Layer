@@ -169,9 +169,10 @@ public class DataServiceImpl implements DataService {
             try (Connection conn = UserSqlConnectionUtil.getConnection(userRemoteDatabase)) {
                 List<String> tables = new ArrayList<>();
                 DatabaseMetaData metaData = conn.getMetaData();
-                ResultSet rs = metaData.getTables(dbName, null, "%", new String[] { "TABLE" });
-                while (rs.next()) {
-                    tables.add(rs.getString("TABLE_NAME"));
+                try (ResultSet rs = metaData.getTables(dbName, null, "%", new String[] { "TABLE" })) {
+                    while (rs.next()) {
+                        tables.add(rs.getString("TABLE_NAME"));
+                    }
                 }
                 return tables;
             } catch (Exception e) {
