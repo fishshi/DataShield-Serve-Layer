@@ -89,6 +89,9 @@ public class DataServiceImpl implements DataService {
 
             // 构建mysqldump命令
             List<String> command = new ArrayList<>();
+            command.add("docker");
+            command.add("exec");
+            command.add("mysql");
             command.add("mysqldump");
             command.add("-h" + host);
             command.add("-P" + port);
@@ -100,16 +103,14 @@ public class DataServiceImpl implements DataService {
             command.add("--triggers"); // 包含触发器
             command.add("--events"); // 包含事件
             command.add("--set-charset"); // 设置字符集
-            command.add("--result-file=-"); // 输出到标准输出
             command.add(fullDbName);
 
             processBuilder.command(command);
-            processBuilder.redirectErrorStream(true);
+            processBuilder.redirectErrorStream(false);
 
             Process process = processBuilder.start();
-            String result = new String(process.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
-
             int exitCode = process.waitFor();
+            String result = new String(process.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
             if (exitCode != 0) {
                 throw new BusinessException("数据库导出失败，退出码: " + exitCode);
             }
