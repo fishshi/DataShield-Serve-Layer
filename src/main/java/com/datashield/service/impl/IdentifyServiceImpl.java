@@ -13,6 +13,9 @@ import com.datashield.mapper.IdentifyMapper;
 import com.datashield.service.IdentifyService;
 import com.datashield.util.UserContextUtil;
 
+/**
+ * 敏感数据识别服务实现类
+ */
 @Service
 public class IdentifyServiceImpl implements IdentifyService {
     @Autowired

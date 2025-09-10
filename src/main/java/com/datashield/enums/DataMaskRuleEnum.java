@@ -9,9 +9,12 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum DataMaskRuleEnum {
-    ;
+    MASK(1, "掩码"),
+    HASH(2, "哈希"),
+    ENCRYPT(3, "加密");
 
     private final int code;
+    private final String description;
 
     /**
      * 根据 code 获取对应的数据脱敏规则枚举类对象

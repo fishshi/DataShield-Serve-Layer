@@ -4,6 +4,9 @@ import java.util.List;
 
 import com.datashield.entity.Task;
 
+/**
+ * 脱敏任务服务接口
+ */
 public interface TaskService {
     /**
      * 创建任务

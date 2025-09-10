@@ -11,6 +11,9 @@ import lombok.NoArgsConstructor;
 import com.datashield.enums.TaskStatusEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+/**
+ * 敏感数据识别实体类
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

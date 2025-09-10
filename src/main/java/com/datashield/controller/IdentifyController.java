@@ -19,6 +19,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+/**
+ * 敏感数据识别任务控制器
+ */
 @RestController
 @RequestMapping("/identify")
 public class IdentifyController {

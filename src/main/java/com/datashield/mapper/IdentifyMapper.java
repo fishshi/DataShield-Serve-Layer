@@ -5,6 +5,9 @@ import org.apache.ibatis.annotations.Mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.datashield.entity.Identify;
 
+/**
+ * 敏感数据识别任务映射接口
+ */
 @Mapper
 public interface IdentifyMapper extends BaseMapper<Identify> {
 }

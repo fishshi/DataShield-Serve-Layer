@@ -16,7 +16,7 @@ import com.datashield.enums.TaskStatusEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
- * 任务实体类
+ * 脱敏任务实体类
  */
 @Data
 @AllArgsConstructor
