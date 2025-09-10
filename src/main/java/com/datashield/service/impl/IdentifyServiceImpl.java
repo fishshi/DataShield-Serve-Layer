@@ -1,5 +1,6 @@
 package com.datashield.service.impl;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ public class IdentifyServiceImpl implements IdentifyService {
     public void createTask(Identify identify) {
         Long userId = UserContextUtil.getUser().getId();
         identify.setUserId(userId);
+        identify.setUpdateTime(new Timestamp(System.currentTimeMillis()));
         if (identifyMapper.insert(identify) == 0) {
             throw new BusinessException("创建敏感数据识别任务失败");
         }
@@ -43,6 +45,7 @@ public class IdentifyServiceImpl implements IdentifyService {
     public void updateTask(Identify identify) {
         Long userId = UserContextUtil.getUser().getId();
         identify.setUserId(userId);
+        identify.setUpdateTime(new Timestamp(System.currentTimeMillis()));
         if (identifyMapper.updateById(identify) == 0) {
             throw new BusinessException("更新敏感数据识别任务失败");
         }
