@@ -13,7 +13,7 @@ public enum ScheduleTypeEnum {
     DAILY(1),
     WEEKLY(2);
 
-    private final int value;
+    private final int code;
 
     /**
      * 根据 code 获取对应的周期性任务类型枚举类对象
@@ -22,9 +22,9 @@ public enum ScheduleTypeEnum {
      *
      * @return 对应的周期性任务类型枚举类对象, 如果不存在则返回 null
      */
-    public static ScheduleTypeEnum getEnum(int value) {
+    public static ScheduleTypeEnum getEnum(int code) {
         for (ScheduleTypeEnum type : ScheduleTypeEnum.values()) {
-            if (type.getValue() == value) {
+            if (type.getCode() == code) {
                 return type;
             }
         }
