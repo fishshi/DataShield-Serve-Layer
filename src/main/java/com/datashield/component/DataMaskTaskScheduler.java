@@ -17,7 +17,7 @@ import com.datashield.mapper.TaskMapper;
  * 周期性任务调度器
  */
 @Component
-public class TaskScheduler {
+public class DataMaskTaskScheduler {
     @Autowired
     private TaskMapper taskMapper;
     @Autowired
