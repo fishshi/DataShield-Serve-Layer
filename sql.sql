@@ -44,7 +44,7 @@ CREATE TABLE `tb_identify` (
     `is_remote` INT NOT NULL,
     `db_name` VARCHAR(64) NOT NULL,
     `tb_name` VARCHAR(64) NOT NULL,
-    `columns` VARCHAR(256),
+    `columns` VARCHAR(512),
     `status` INT NOT NULL DEFAULT 0,
     `create_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `update_time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
